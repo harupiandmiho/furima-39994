@@ -25,7 +25,7 @@ RSpec.describe User, type: :model do
   it 'is invalid with a password less than 6 characters' do
     user = FactoryBot.build(:user, password: '12345', password_confirmation: '12345')
     user.valid?
-    expect(user.errors[:password]).to include("is too short (minimum is 6 characters)")
+    expect(user.errors[:password]).to include('is too short (minimum is 6 characters)')
   end
 
   # 姓（family_name）が必須であることを確認するテスト
