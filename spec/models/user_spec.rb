@@ -28,7 +28,7 @@ RSpec.describe User, type: :model do
       it 'emailが一意性でないと登録できない' do
         duplicate_user = @user.dup
         @user.save
-        duplicate_user.email = @user.email
+        duplicate_user.email = @user.email.upcase
         duplicate_user.valid?
         expect(duplicate_user.errors.full_messages).to include('Email has already been taken')
       end
@@ -52,9 +52,23 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
 
-      it 'passwordが半角英数字混合でないと登録できない' do
+      it 'passwordが半角英数字混合でないと登録できない（英字のみ）' do
         @user.password = 'abcdef'
         @user.password_confirmation = 'abcdef'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password is invalid')
+      end
+
+      it 'passwordが半角英数字混合でないと登録できない（数字のみ）' do
+        @user.password = '123456'
+        @user.password_confirmation = '123456'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password is invalid')
+      end
+
+      it 'passwordが半角英数字混合でないと登録できない（全角文字を含む）' do
+        @user.password = 'abc１２３'
+        @user.password_confirmation = 'abc１２３'
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is invalid')
       end
@@ -87,6 +101,37 @@ RSpec.describe User, type: :model do
         @user.birth_date = nil
         @user.valid?
         expect(@user.errors.full_messages).to include("Birth date can't be blank")
+      end
+
+      it 'パスワードとパスワード（確認用）が不一致だと登録できない' do
+        @user.password = 'abc123'
+        @user.password_confirmation = 'abc124'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
+      
+      it '姓（全角）に半角文字が含まれていると登録できない' do
+        @user.family_name = 'Yamada'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Family name is invalid")
+      end
+  
+      it '名（全角）に半角文字が含まれていると登録できない' do
+        @user.first_name = 'Taro'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name is invalid")
+      end
+  
+      it '姓（カナ）にカタカナ以外の文字（平仮名・漢字・英数字・記号）が含まれていると登録できない' do
+        @user.family_name_kana = 'やまだ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Family name kana is invalid")
+      end
+  
+      it '名（カナ）にカタカナ以外の文字（平仮名・漢字・英数字・記号）が含まれていると登録できない' do
+        @user.first_name_kana = 'たろう'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name kana is invalid")
       end
     end
   end
