@@ -17,7 +17,8 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:name, :description, :category_id, :condition_id, :shipping_charge_id, :shipping_area_id, :days_to_ship_id, :price, :image)
+    params.require(:item).permit(:name, :description, :category_id, :condition_id, :shipping_charge_id, :shipping_area_id,
+                                 :days_to_ship_id, :price, :image)
     # 上記のpermit内のシンボルは、フォームで扱う各入力項目のname属性に対応しています
   end
 end
