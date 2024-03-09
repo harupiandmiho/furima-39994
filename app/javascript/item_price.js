@@ -1,6 +1,4 @@
 window.addEventListener('turbo:load', () => {
-  console.log("OK");
-});
 
 const priceInput = document.getElementById('item-price');
 const addTaxDom = document.getElementById('add-tax-price');
@@ -19,4 +17,4 @@ priceInput.addEventListener('input', () => {
   addTaxDom.textContent = tax.toLocaleString(); // toLocaleString()は数値を通貨形式に変換します
   profitDom.textContent = profit.toLocaleString();
 });
-
+});

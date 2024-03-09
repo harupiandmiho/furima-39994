@@ -8,6 +8,8 @@ class Item < ApplicationRecord
 
   has_one_attached :image
 # バリデーションの設定
+# 画像のバリデーションを追加
+validates :image, attached: true, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
 validates :name, presence: true
 validates :description, presence: true
 validates :price, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
@@ -16,5 +18,3 @@ validates :price, presence: true, numericality: { only_integer: true, greater_th
 validates :category_id, :condition_id, :shipping_charge_id, :shipping_area_id, :days_to_ship_id,
           numericality: { other_than: 1, message: "must be other than '---'" }
 end
-
-
