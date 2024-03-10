@@ -86,3 +86,9 @@ gem 'devise'
 group :development, :test do
   gem 'rspec-rails'
 end
+
+gem 'mini_magick'
+gem 'image_processing', '~> 1.2'
+gem 'active_hash'
+gem 'active_storage_validations'
+
