@@ -131,7 +131,8 @@
  <% if @items.present? %>
         <% @items.each do |item| %>
           <li class='list'>
-            <%= link_to item_path(item) do %>
+            <%# TODO: 商品詳細表示機能実装時にコメントアウトを解除 %>
+            <%# link_to item_path(item) do %>
               <div class='item-img-content'>
                 <%= image_tag item.image, class: "item-img" if item.image.attached? %>
                 <%# 商品が売れていればsold outを表示しましょう %>
@@ -150,7 +151,7 @@
                   </div>
                 </div>
               </div>
-            <% end %>
+            <%# end %>
           </li>
         <% end %>
     <% end %>
