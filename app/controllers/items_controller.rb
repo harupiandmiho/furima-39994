@@ -6,12 +6,16 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = Item.new(item_params)
+    @item = current_user.items.build(item_params)
     if @item.save
       redirect_to root_path # 保存に成功した場合はトップページへリダイレクト
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def index
+    @items = Item.all.order('created_at DESC')
   end
 
   private
