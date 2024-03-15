@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
+  before_action :set_item, only: [:show]
 
   def new
     @item = Item.new
@@ -18,7 +19,15 @@ class ItemsController < ApplicationController
     @items = Item.all.order('created_at DESC')
   end
 
+  def show
+    # set_itemメソッドで@itemを設定
+  end
+
   private
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
 
   def item_params
     params.require(:item).permit(:name, :description, :category_id, :condition_id, :shipping_charge_id, :shipping_area_id,
