@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
-  before_action :set_item, only: [:show]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
+  before_action :set_item, only: [:show, :edit, :update]
+  before_action :move_to_index, only: [:edit, :update]
 
   def new
     @item = Item.new
@@ -23,6 +24,14 @@ class ItemsController < ApplicationController
     # set_itemメソッドで@itemを設定
   end
 
+  def update
+    if @item.update(item_params)
+      redirect_to item_path(@item)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_item
@@ -33,5 +42,13 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:name, :description, :category_id, :condition_id, :shipping_charge_id, :shipping_area_id,
                                  :days_to_ship_id, :price, :image)
     # 上記のpermit内のシンボルは、フォームで扱う各入力項目のname属性に対応しています
+  end
+
+  def move_to_index
+    # 売却済み商品の判断は商品購入機能実装後に追加すること
+    # 自身が出品していない商品、または売却済みの商品の編集ページにアクセスしようとした場合、トップページにリダイレクト
+    return unless current_user.id != @item.user_id # || 売却済み判断条件
+
+    redirect_to root_path
   end
 end
