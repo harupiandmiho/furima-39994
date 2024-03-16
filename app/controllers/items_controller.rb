@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   before_action :set_item, only: [:show, :edit, :update]
-  before_action :move_to_index, only: [:edit, :update] 
+  before_action :move_to_index, only: [:edit, :update]
 
   def new
     @item = Item.new
@@ -52,8 +52,8 @@ class ItemsController < ApplicationController
   def move_to_index
     # 売却済み商品の判断は商品購入機能実装後に追加すること
     # 自身が出品していない商品、または売却済みの商品の編集ページにアクセスしようとした場合、トップページにリダイレクト
-    if current_user.id != @item.user_id # || 売却済み判断条件
-      redirect_to root_path
-    end
+    return unless current_user.id != @item.user_id # || 売却済み判断条件
+
+    redirect_to root_path
   end
 end
