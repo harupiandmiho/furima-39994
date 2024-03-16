@@ -1,7 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy]
-  before_action :set_item, only: [:show, :destroy]
-  before_action :move_to_index, only: [:destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def new
     @item = Item.new
@@ -39,9 +38,5 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:name, :description, :category_id, :condition_id, :shipping_charge_id, :shipping_area_id,
                                  :days_to_ship_id, :price, :image)
     # 上記のpermit内のシンボルは、フォームで扱う各入力項目のname属性に対応しています
-  end
-  
-  def move_to_index
-    redirect_to root_path unless current_user.id == @item.user_id
   end
 end
