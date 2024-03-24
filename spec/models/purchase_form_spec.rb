@@ -33,7 +33,7 @@ RSpec.describe PurchaseForm, type: :model do
       it 'shipping_area_idが1では保存できない' do
         @purchase_form.shipping_area_id = 1
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include("Shipping area select")
+        expect(@purchase_form.errors.full_messages).to include("Shipping area Select")
       end
 
       it 'cityが空では保存できない' do
