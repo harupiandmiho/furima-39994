@@ -6,7 +6,7 @@ development:
   <<: *default
   adapter: mysql2
   username: root
-  password:
+  password:<%= ENV['MYSQL_ROOT_PASSWORD'] %>
   host: localhost
   database: furima39994_development
 

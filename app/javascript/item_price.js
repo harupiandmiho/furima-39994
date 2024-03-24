@@ -1,20 +1,21 @@
-window.addEventListener('turbo:load', () => {
+document.addEventListener('DOMContentLoaded', () => { // DOMが完全にロードされたことを確認
+  const priceInput = document.getElementById('item-price');
+  const addTaxDom = document.getElementById('add-tax-price');
+  const profitDom = document.getElementById('profit');
 
-const priceInput = document.getElementById('item-price');
-const addTaxDom = document.getElementById('add-tax-price');
-const profitDom = document.getElementById('profit');
+  if (priceInput && addTaxDom && profitDom) { // 要素が存在するか確認
+    priceInput.addEventListener('input', () => {
+      const inputValue = priceInput.value;
 
-priceInput.addEventListener('input', () => {
-  const inputValue = priceInput.value;
-  
-  // 販売手数料の計算（価格の10%）
-  const tax = Math.floor(inputValue * 0.1);
-  
-  // 利益の計算（価格の90%）
-  const profit = Math.floor(inputValue * 0.9);
-  
-  // 販売手数料と利益をHTMLに表示
-  addTaxDom.textContent = tax.toLocaleString(); // toLocaleString()は数値を通貨形式に変換します
-  profitDom.textContent = profit.toLocaleString();
-});
+      // 価格の10％として販売税を計算
+      const tax = Math.floor(inputValue * 0.1);
+
+      // 価格の90％として利益を計算
+      const profit = Math.floor(inputValue * 0.9);
+
+      // HTMLに販売税と利益を表示
+      addTaxDom.textContent = tax.toLocaleString(); // toLocaleString()は数値を通貨形式に変換します
+      profitDom.textContent = profit.toLocaleString();
+    });
+  }
 });
