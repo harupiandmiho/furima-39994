@@ -1,12 +1,12 @@
 class OrdersController < ApplicationController
- before_action :authenticate_user!, only: [:index, :create] 
- before_action :set_item, only: [:index, :create]
- before_action :redirect_if_seller_or_sold, only: [:index]
+  before_action :authenticate_user!, only: [:index, :create]
+  before_action :set_item, only: [:index, :create]
+  before_action :redirect_if_seller_or_sold, only: [:index]
 
   def index
     # Formオブジェクトのインスタンスを作成
     @purchase_form = PurchaseForm.new
-    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     # その他必要なデータの取得（商品情報など）
   end
 
@@ -17,7 +17,7 @@ class OrdersController < ApplicationController
       @purchase_form.save
       redirect_to root_path
     else
-      gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
+      gon.public_key = ENV['PAYJP_PUBLIC_KEY']
       render :index, status: :unprocessable_entity
     end
   end
@@ -34,17 +34,16 @@ class OrdersController < ApplicationController
   end
 
   def pay_item
-  Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-  Payjp::Charge.create(
-    amount: @item.price ,# 商品の値段
-    card: purchase_params[:token],    # カードトークン
-    currency: 'jpy'                 # 通貨の種類（日本円）
-  )
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
+    Payjp::Charge.create(
+      amount: @item.price, # 商品の値段
+      card: purchase_params[:token], # カードトークン
+      currency: 'jpy' # 通貨の種類（日本円）
+    )
   end
 
   def redirect_if_seller_or_sold
     # 商品が売却済み、または現在のユーザーが出品者の場合、トップページにリダイレクト
-    redirect_to root_path, alert: "アクセスできません。" if @item.user_id == current_user.id || @item.order.present?
+    redirect_to root_path, alert: 'アクセスできません。' if @item.user_id == current_user.id || @item.order.present?
   end
-
 end
