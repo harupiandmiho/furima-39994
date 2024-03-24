@@ -35,7 +35,7 @@
 - belongs_to :user
 - has_one :purchase
 
-## Purchasesテーブル（購入記録）
+## Ordersテーブル（購入記録）
 
 | Column | Type       | Options                        |
 |--------|------------|--------------------------------|
@@ -57,7 +57,7 @@
 | address        | string     | null: false                    |
 | building_name  | string     |                                |
 | phone_number   | string     | null: false                    |
-| purchase       | references | null: false, foreign_key: true |
+| order       | references | null: false, foreign_key: true |
 
 ### Association
-- belongs_to :purchase
+- belongs_to :order
