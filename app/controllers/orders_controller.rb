@@ -1,5 +1,7 @@
 class OrdersController < ApplicationController
-  before_action :set_item, only: [:index, :create]
+ before_action :set_item, only: [:index, :create]
+ before_action :redirect_if_seller_or_sold, only: [:index]
+
   def index
     # Formオブジェクトのインスタンスを作成
     @purchase_form = PurchaseForm.new
@@ -37,6 +39,11 @@ class OrdersController < ApplicationController
     card: purchase_params[:token],    # カードトークン
     currency: 'jpy'                 # 通貨の種類（日本円）
   )
+  end
+
+  def redirect_if_seller_or_sold
+    # 商品が売却済み、または現在のユーザーが出品者の場合、トップページにリダイレクト
+    redirect_to root_path, alert: "アクセスできません。" if @item.user_id == current_user.id || @item.order.present?
   end
 
 end
