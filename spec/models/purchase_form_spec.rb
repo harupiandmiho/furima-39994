@@ -5,16 +5,9 @@ RSpec.describe PurchaseForm, type: :model do
     # テスト用のユーザーと商品を作成
     user = FactoryBot.create(:user)
     item = FactoryBot.create(:item)
-    @purchase_form = PurchaseForm.new(
-      user_id: user.id,
-      item_id: item.id,
-      postal_code: '123-4567',
-      prefecture_id: 2, # ここでは、適切な値（1以外）を設定してください
-      city: '横浜市緑区',
-      address: '青山1-1-1',
-      phone_number: '09012345678',
-      token: 'tok_abcdefghijk00000000000000000'
-    )
+    @purchase_form = FactoryBot.build(:purchase_form,
+                                      user_id: user.id,
+                                      item_id: item.id)
   end
 
   describe '購入情報の保存' do
@@ -34,13 +27,13 @@ RSpec.describe PurchaseForm, type: :model do
       it 'postal_codeがハイフン無しでは保存できない' do
         @purchase_form.postal_code = '1234567'
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include("Postal code Input correctly")
+        expect(@purchase_form.errors.full_messages).to include('Postal code Input correctly')
       end
 
-      it 'prefecture_idが1では保存できない' do
-        @purchase_form.prefecture_id = 1
+      it 'shipping_area_idが1では保存できない' do
+        @purchase_form.shipping_area_id = 1
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include("Prefecture Select")
+        expect(@purchase_form.errors.full_messages).to include('Shipping area Select')
       end
 
       it 'cityが空では保存できない' do
@@ -64,13 +57,13 @@ RSpec.describe PurchaseForm, type: :model do
       it 'phone_numberが10桁未満では保存できない' do
         @purchase_form.phone_number = '123456789'
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include("Phone number is invalid. Input only number")
+        expect(@purchase_form.errors.full_messages).to include('Phone number is invalid. Input only number')
       end
 
       it 'phone_numberが12桁以上では保存できない' do
         @purchase_form.phone_number = '090123456789'
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include("Phone number is invalid. Input only number")
+        expect(@purchase_form.errors.full_messages).to include('Phone number is invalid. Input only number')
       end
 
       it 'tokenが空では保存できない' do
