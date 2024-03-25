@@ -26,7 +26,7 @@
 | category_id         | integer    | null: false                    |
 | condition_id        | integer    | null: false                    |
 | shipping_charge_id  | integer    | null: false                    |
-| prefecture_id       | integer    | null: false                    |
+| shipping_area_id    | integer    | null: false                    |
 | days_to_ship_id     | integer    | null: false                    |
 | price               | integer    | null: false                    |
 | user                | references | null: false, foreign_key: true |
@@ -52,7 +52,7 @@
 | Column         | Type       | Options                        |
 |----------------|------------|--------------------------------|
 | postal_code    | string     | null: false                    |
-| prefecture_id  | integer    | null: false                    |
+|shipping_area_id| integer    | null: false                    |
 | city           | string     | null: false                    |
 | address        | string     | null: false                    |
 | building_name  | string     |                                |

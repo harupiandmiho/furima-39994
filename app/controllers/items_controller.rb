@@ -1,5 +1,4 @@
 class ItemsController < ApplicationController
-商品削除機能
   before_action :authenticate_user!, only: [:new, :create, :destroy]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
