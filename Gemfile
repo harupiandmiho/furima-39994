@@ -93,8 +93,6 @@ gem 'active_hash'
 gem 'active_storage_validations'
 # Gemfile
 gem 'pry-rails'
-
-gem 'pry-rails'
 gem 'payjp'
 gem 'gon'
 
